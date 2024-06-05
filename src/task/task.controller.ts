@@ -20,6 +20,16 @@ export class TaskController {
     return this.taskService.create(taskDTO);
   }
 
+  @Get()
+  findAll() {
+    return this.taskService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.taskService.findOne(id);
+  }
+
   @Post(':id')
   method(@Param('id') id: string) {
     return {
@@ -27,23 +37,13 @@ export class TaskController {
     };
   }
 
-  @Get('done')
-  methodGet(@Req() req: Request) {
-    return `method ${req.method}`;
+  @Put(':id')
+  update(@Param('id') id: string, @Body() taskDTO: TaskDTO) {
+    return this.taskService.update(id, taskDTO);
   }
 
-  @Put('update')
-  methodPut(@Req() req: Request) {
-    return `method ${req.method}`;
-  }
-
-  @Patch('update2')
-  methodPatch(@Req() req: Request) {
-    return `method ${req.method}`;
-  }
-
-  @Delete('delete')
-  methodDelete(@Req() req: Request) {
-    return `method ${req.method}`;
+  @Delete(':id')
+  Delete(@Param('id') id: string) {
+    return this.taskService.delete(id);
   }
 }
