@@ -4,10 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
   Put,
-  Req,
 } from '@nestjs/common';
 import { TaskService } from './task.service.spec';
 import { TaskDTO } from './dto/task.dto';
