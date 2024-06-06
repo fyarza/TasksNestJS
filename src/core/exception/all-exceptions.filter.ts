@@ -9,6 +9,7 @@ import { Request, Response } from 'express';
 import {
   CustomHttpExceptionResponse,
   HttpExceptionResponse,
+  MessageExceptionResponse,
 } from './models/http-exception-response.interface';
 import * as fs from 'fs';
 
@@ -21,21 +22,26 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     let status: HttpStatus;
     let errorMessage: string;
+    let message: string | string[] | MessageExceptionResponse;
 
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       const errorResponse = exception.getResponse();
       errorMessage =
         (errorResponse as HttpExceptionResponse).error || exception.message;
+      message =
+        (errorResponse as HttpExceptionResponse).message || exception.message;
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       errorMessage = 'Critical internal server error occurered!';
+      message: '';
     }
 
     const errorResponse: CustomHttpExceptionResponse = this.getErrorResponse(
       status,
       errorMessage,
       request,
+      message,
     );
 
     this.writeErrorLogToFile(this.logError(errorResponse, request, exception));
@@ -46,9 +52,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
     status: HttpStatus,
     errorMessage: string,
     request: Request,
+    message?: string | string[] | MessageExceptionResponse,
   ): CustomHttpExceptionResponse => ({
     statusCode: status,
     error: errorMessage,
+    message,
     path: request.url,
     method: request.method,
     timeStamp: new Date(),

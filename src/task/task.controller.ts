@@ -1,23 +1,35 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
+  InternalServerErrorException,
+  NotFoundException,
   Param,
   Post,
   Put,
+  UnauthorizedException,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { TaskService } from './task.service.spec';
 import { TaskDTO } from './dto/task.dto';
 
+// https://medium.com/@developerwhoismean/understanding-exceptions-in-nestjs-6a2954ac4903 exceptions
 @Controller('v1/task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
   @Post()
   @UsePipes(new ValidationPipe())
   create(@Body() taskDTO: TaskDTO) {
+    // throw new NotFoundException('User not found');
+    throw new InternalServerErrorException('Something went wrong');
+    throw new ForbiddenException('Access denied');
+    throw new UnauthorizedException('Invalid credentials');
+    throw new BadRequestException('Invalid input data');
+    throw new NotFoundException('User not found');
     return this.taskService.create(taskDTO);
   }
 
