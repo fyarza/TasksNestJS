@@ -1,16 +1,11 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
-  ForbiddenException,
   Get,
-  InternalServerErrorException,
-  NotFoundException,
   Param,
   Post,
   Put,
-  UnauthorizedException,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -25,11 +20,11 @@ export class TaskController {
   @UsePipes(new ValidationPipe())
   create(@Body() taskDTO: TaskDTO) {
     // throw new NotFoundException('User not found');
-    throw new InternalServerErrorException('Something went wrong');
-    throw new ForbiddenException('Access denied');
-    throw new UnauthorizedException('Invalid credentials');
-    throw new BadRequestException('Invalid input data');
-    throw new NotFoundException('User not found');
+    // throw new InternalServerErrorException('Something went wrong');
+    // throw new ForbiddenException('Access denied');
+    // throw new UnauthorizedException('Invalid credentials');
+    // throw new BadRequestException('Invalid input data');
+    // throw new NotFoundException('User not found');
     return this.taskService.create(taskDTO);
   }
 
