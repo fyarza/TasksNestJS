@@ -6,8 +6,6 @@ import {
   Param,
   Post,
   Put,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { TaskService } from './task.service.spec';
 import { TaskDTO } from './dto/task.dto';
@@ -17,7 +15,6 @@ import { TaskDTO } from './dto/task.dto';
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
   @Post()
-  @UsePipes(new ValidationPipe())
   create(@Body() taskDTO: TaskDTO) {
     // throw new NotFoundException('User not found');
     // throw new InternalServerErrorException('Something went wrong');
